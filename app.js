@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 const swigPackage = require('swig');
 
 var index = require('./controllers/index');
+//Inject band controller
+var bands = require('./controllers/Band');
+//Inject user controller
+var users = require('./controllers/User');
 
 var app = express();
 
@@ -25,6 +29,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', index.show);
+//Defining route to list and post
+app.get('/bands', bands.list);
+//Get band by ID
+app.get('/bands/:id', bands.byId);
+//Create a band
+app.post('/bands', bands.create);
+//Update
+app.put('/bands/:id', bands.update);
+//Delete by id
+app.delete('/bands/:id', bands.delete);
+// Defining route to list and post users 
+app.get('/users', users.list);
+app.post('/users', users.create);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
